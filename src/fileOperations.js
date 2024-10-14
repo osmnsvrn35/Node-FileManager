@@ -50,3 +50,12 @@ export async function cp(sourcePath, destinationDir) {
       readableStream.on('error', reject);  
     });
   }
+
+
+  export async function mv(sourcePath, destinationDir) {
+
+    await cp(sourcePath, destinationDir);
+    const absoluteSourcePath = path.resolve(process.cwd(), sourcePath);
+    await fsPromises.unlink(absoluteSourcePath);
+    
+  }
