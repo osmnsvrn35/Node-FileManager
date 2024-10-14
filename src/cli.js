@@ -3,7 +3,7 @@ import { stdin as input, stdout as output } from 'process';
 import os from 'os';
 import { up, cd, ls } from './navigation.js';
 import { cat, add,rn,cp,mv,rm } from './fileOperations.js';
-
+import { handleOsCommand } from './systemInfo.js';
 export function extractUsername() {
   const args = process.argv.slice(2);
   let username = 'anonymous user';
@@ -65,6 +65,10 @@ export function startCLI(username) {
       else if (command === 'rm' && args[0]) {
         await rm(args[0]); 
       }
+      else if (command === 'os') {
+        handleOsCommand(args[0]); 
+      }
+
       else {
         console.log('Invalid input');
       }
