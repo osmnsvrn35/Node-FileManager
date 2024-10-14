@@ -2,6 +2,7 @@ import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
 import os from 'os';
 import { up, cd ,ls} from './navigation.js';
+import {cat} from './fileOperations.js';
 export function extractUsername() {
   const args = process.argv.slice(2);
   let username = 'anonymous user';
@@ -36,14 +37,19 @@ export function startCLI(username) {
     try {
       if (command === '.exit') {
         await exitHandler(rl, username);
-      } else if (command === 'up') {
+      } 
+      else if (command === 'up') {
         await up();
-      } else if (command === 'cd' && args[0]) {
+      } 
+      else if (command === 'cd' && args[0]) {
         await cd(args[0]); 
       }
       else if (command === 'ls') {
         await ls(); 
       } 
+      else if (command === 'cat' && args[0]){
+        await cat(args[0])
+      }
       else {
         console.log('Invalid input');
       }
