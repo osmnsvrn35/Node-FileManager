@@ -1,6 +1,6 @@
 import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
-
+import os from 'os';
 
 export function extractUsername() {
   const args = process.argv.slice(2);
@@ -17,6 +17,10 @@ export function extractUsername() {
 
 export function startCLI(username) {
     const rl = readline.createInterface({ input, output });
+
+    const homeDirectory = os.homedir();
+    process.chdir(homeDirectory);
+
     rl.setPrompt('> ');
     console.log(`Welcome to the File Manager, ${username}!`);
     console.log(`You are currently in ${process.cwd()}`);
@@ -30,14 +34,14 @@ export function startCLI(username) {
       }
     });
 
-    rl.on('SIGINT', async () => {
-      await exitHandler(rl, username);
+    rl.on('SIGINT', () => {
+    exitHandler(rl, username);
     });
     process.on('SIGINT', () => {});
   }
   
-  async function exitHandler(rl, username) {
+  function exitHandler(rl, username) {
     console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
-    await rl.close();
+    rl.close();
     process.exit(0);
 }
