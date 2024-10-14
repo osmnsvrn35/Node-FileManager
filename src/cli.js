@@ -2,7 +2,7 @@ import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
 import os from 'os';
 import { up, cd, ls } from './navigation.js';
-import { cat, add,rn,cp,mv } from './fileOperations.js';
+import { cat, add,rn,cp,mv,rm } from './fileOperations.js';
 
 export function extractUsername() {
   const args = process.argv.slice(2);
@@ -61,6 +61,9 @@ export function startCLI(username) {
       }
       else if (command === 'mv' && args[0] && args[1]) {
         await mv(args[0], args[1]); 
+      }
+      else if (command === 'rm' && args[0]) {
+        await rm(args[0]); 
       }
       else {
         console.log('Invalid input');

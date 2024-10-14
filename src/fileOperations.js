@@ -57,5 +57,10 @@ export async function cp(sourcePath, destinationDir) {
     await cp(sourcePath, destinationDir);
     const absoluteSourcePath = path.resolve(process.cwd(), sourcePath);
     await fsPromises.unlink(absoluteSourcePath);
-    
+
+  }
+
+  export async function rm(filePath) {
+    const absoluteFilePath = path.resolve(process.cwd(), filePath);
+    await fsPromises.unlink(absoluteFilePath);
   }
