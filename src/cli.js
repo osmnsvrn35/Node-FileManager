@@ -1,6 +1,7 @@
 import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
 import os from 'os';
+import { up } from './navigation.js';
 
 export function extractUsername() {
   const args = process.argv.slice(2);
@@ -18,39 +19,44 @@ export function extractUsername() {
 export function startCLI(username) {
   const rl = readline.createInterface({ input, output });
 
+
   const homeDirectory = os.homedir();
-  process.chdir(homeDirectory);
+  process.chdir(homeDirectory); 
 
   rl.setPrompt('> ');
 
   console.log(`Welcome to the File Manager, ${username}!`);
   console.log(`You are currently in ${process.cwd()}`);
 
-  rl.prompt();
+  rl.prompt(); 
 
   rl.on('line', async (userInput) => {
+    const trimmedInput = userInput.trim(); 
+
     try {
-        if (trimmedInput === '.exit') {
-          await exitHandler(rl, username);
-        } else {
-          
-          console.log('Invalid input');
-        }
-      } 
-    catch (error) {
-        console.log('Operation failed');
+      if (trimmedInput === '.exit') {
+        await exitHandler(rl, username);
+      } else if (trimmedInput === 'up') {
+        await up(); 
+      } else {
+        console.log('Invalid input'); 
+      }
+    } catch (error) {
+      console.log('Operation failed:', error.message); 
     }
-    console.log(`You are currently in ${process.cwd()}`);
-    rl.prompt();
+
+    console.log(`You are currently in ${process.cwd()}`); 
+    rl.prompt(); 
   });
 
+  
   process.on('SIGINT', () => {
-    exitHandler(rl, username);
+    exitHandler(rl, username); 
   });
 }
 
-function exitHandler(rl, username) {
+async function exitHandler(rl, username) {
   console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
-  rl.close();
-  process.exit(0);
+  await rl.close(); 
+  process.exit(0); 
 }
