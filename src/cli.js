@@ -29,11 +29,16 @@ export function startCLI(username) {
   rl.prompt();
 
   rl.on('line', async (userInput) => {
-    if (userInput.trim() === '.exit') {
-      await exitHandler(rl, username);
-    } else {
-      console.log('Invalid input');
-      rl.prompt();
+    try {
+        if (trimmedInput === '.exit') {
+          await exitHandler(rl, username);
+        } else {
+          
+          console.log('Invalid input');
+        }
+      } 
+    catch (error) {
+        console.log('Operation failed');
     }
     console.log(`You are currently in ${process.cwd()}`);
     rl.prompt();
