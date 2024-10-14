@@ -1,8 +1,9 @@
 import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
 import os from 'os';
-import { up, cd ,ls} from './navigation.js';
-import {cat} from './fileOperations.js';
+import { up, cd, ls } from './navigation.js';
+import { cat, add } from './fileOperations.js';
+
 export function extractUsername() {
   const args = process.argv.slice(2);
   let username = 'anonymous user';
@@ -19,19 +20,18 @@ export function extractUsername() {
 export function startCLI(username) {
   const rl = readline.createInterface({ input, output });
 
-
   const homeDirectory = os.homedir();
   process.chdir(homeDirectory); 
 
-  rl.setPrompt('> '); 
+  rl.setPrompt('> ');
 
   console.log(`Welcome to the File Manager, ${username}!`);
   console.log(`You are currently in ${process.cwd()}`);
 
-  rl.prompt(); 
+  rl.prompt();
 
   rl.on('line', async (userInput) => {
-    const trimmedInput = userInput.trim(); 
+    const trimmedInput = userInput.trim();
     const [command, ...args] = trimmedInput.split(' ');
 
     try {
@@ -42,33 +42,37 @@ export function startCLI(username) {
         await up();
       } 
       else if (command === 'cd' && args[0]) {
-        await cd(args[0]); 
-      }
-      else if (command === 'ls') {
-        await ls(); 
+        await cd(args[0]);
       } 
-      else if (command === 'cat' && args[0]){
-        await cat(args[0])
-      }
+      else if (command === 'ls') {
+        await ls();
+      } 
+      else if (command === 'cat' && args[0]) {
+        await cat(args[0]);
+      } 
+      else if (command === 'add' && args[0]) {
+        await add(args[0]);
+      } 
       else {
         console.log('Invalid input');
       }
-    } catch (error) {
-      console.log('Operation failed');
+    } 
+    catch (error) {
+      
+      console.error(`Operation failed`);
     }
 
     console.log(`You are currently in ${process.cwd()}`);
     rl.prompt();
   });
 
-
   process.on('SIGINT', async () => {
-    await exitHandler(rl, username); 
+    await exitHandler(rl, username);
   });
 }
 
 async function exitHandler(rl, username) {
   console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
-  rl.close(); 
-  process.exit(0); 
+  rl.close();
+  process.exit(0);
 }
