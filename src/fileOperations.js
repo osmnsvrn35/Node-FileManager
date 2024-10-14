@@ -1,4 +1,4 @@
-import { stat, readFile, open } from 'node:fs/promises';
+import { stat, readFile, open, rename } from 'node:fs/promises';
 import { EOL } from 'node:os';
 import path from 'path';
 
@@ -17,3 +17,10 @@ export async function add(fileName) {
     const fileHandle = await open(absolutePath, 'wx');
     await fileHandle.close();
 }
+
+export async function rn(oldPath, newFileName) {
+  
+    const absoluteOldPath = path.resolve(process.cwd(), oldPath);
+    const newFilePath = path.resolve(path.dirname(absoluteOldPath), newFileName);
+    await rename(absoluteOldPath, newFilePath);
+  }
