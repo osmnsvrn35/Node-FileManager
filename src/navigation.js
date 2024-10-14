@@ -38,10 +38,11 @@ export async function ls() {
       }
       return a.type === 'directory' ? -1 : 1; 
     });
-    console.log('Index\tName\t\t\tType');
+
     sortedResults.forEach((item, index) => {
       console.log(`${index}\t${item.name}\t\t\t${item.type}`);
     });
+    console.table(sortedResults);
    
   }
  
