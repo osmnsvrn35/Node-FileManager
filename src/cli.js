@@ -4,6 +4,7 @@ import os from 'os';
 import { up, cd, ls } from './navigation.js';
 import { cat, add,rn,cp,mv,rm } from './fileOperations.js';
 import { handleOsCommand } from './systemInfo.js';
+import {calculateHash} from './hash.js';
 export function extractUsername() {
   const args = process.argv.slice(2);
   let username = 'anonymous user';
@@ -67,6 +68,9 @@ export function startCLI(username) {
       }
       else if (command === 'os') {
         handleOsCommand(args[0]); 
+      }
+      else if (command === 'hash' && args[0]) {
+        await calculateHash(args[0]); 
       }
 
       else {
