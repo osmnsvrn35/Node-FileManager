@@ -5,6 +5,7 @@ import { up, cd, ls } from './navigation.js';
 import { cat, add,rn,cp,mv,rm } from './fileOperations.js';
 import { handleOsCommand } from './systemInfo.js';
 import {calculateHash} from './hash.js';
+import { compress, decompress } from './compression.js';
 export function extractUsername() {
   const args = process.argv.slice(2);
   let username = 'anonymous user';
@@ -72,6 +73,12 @@ export function startCLI(username) {
       else if (command === 'hash' && args[0]) {
         await calculateHash(args[0]); 
       }
+      else if (command === 'compress' && args[0] && args[1]) {
+        await compress(args[0], args[1]); 
+      } 
+      else if (command === 'decompress' && args[0] && args[1]) {
+        await decompress(args[0], args[1]); 
+      } 
 
       else {
         console.log('Invalid input');
