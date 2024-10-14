@@ -17,12 +17,16 @@ export function extractUsername() {
 
 export function startCLI(username) {
     const rl = readline.createInterface({ input, output });
-  
+    rl.setPrompt('> ');
     console.log(`Welcome to the File Manager, ${username}!`);
-  
+    console.log(`You are currently in ${process.cwd()}`);
+
     rl.on('line', async (userInput) => {
       if (userInput.trim() === '.exit') {
         await exitHandler(rl, username);
+      }
+      else{
+        console.log(`You are currently in ${process.cwd()}`);
       }
     });
 
