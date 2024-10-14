@@ -93,7 +93,7 @@ export function startCLI(username) {
     rl.prompt();
   });
 
-  process.on('SIGINT', async () => {
+  rl.on('SIGINT', async () => {
     await exitHandler(rl, username);
   });
 }
@@ -103,3 +103,5 @@ async function exitHandler(rl, username) {
   rl.close();
   process.exit(0);
 }
+
+
